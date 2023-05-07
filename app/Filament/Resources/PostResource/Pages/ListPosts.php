@@ -15,6 +15,8 @@ class ListPosts extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+            // Actions\ForceDeleteAction::make(),
+            // Actions\RestoreAction::make(),
         ];
     }
 

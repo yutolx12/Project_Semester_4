@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\RelationManagers\PostsRelationManager;
+use App\Filament\Resources\LendingResource\RelationManagers\PostsRelationManager;
 use App\Filament\Resources\LendingResource\Pages;
 use App\Filament\Resources\LendingResource\RelationManagers;
 use App\Models\Lending;
@@ -73,6 +73,7 @@ class LendingResource extends Resource
     public static function getRelations(): array
     {
         return [
+
             PostsRelationManager::class
         ];
     }

@@ -14,10 +14,13 @@ class EditPost extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            // Actions\ForceDeleteAction::make(),
+            // Actions\RestoreAction::make(),
         ];
     }
 
-    protected function getRedirectUrl():String{
+    protected function getRedirectUrl(): String
+    {
         return $this->getResource()::getUrl('index');
     }
 }

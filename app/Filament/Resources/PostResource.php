@@ -28,6 +28,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class PostResource extends Resource
 {
@@ -49,7 +50,7 @@ class PostResource extends Resource
                     TextInput::make('title')
                         ->reactive()
                         ->afterStateUpdated(function (\Closure $set, $state) {
-                            $set('slug', \Str::slug($state));
+                            $set('slug', Str::slug($state));
                         })->required(),
                     TextInput::make('slug')->required(),
                     SpatieMediaLibraryFileUpload::make('Product_Image'),
@@ -65,10 +66,8 @@ class PostResource extends Resource
             ->columns([
                 TextColumn::make('No')->getStateUsing(
                     static function ($rowLoop, HasTable $livewire): string {
-                        return (string) (
-                            $rowLoop->iteration +
-                            ($livewire->tableRecordsPerPage * (
-                                $livewire->page - 1
+                        return (string) ($rowLoop->iteration +
+                            ($livewire->tableRecordsPerPage * ($livewire->page - 1
                             ))
                         );
                     }
@@ -77,21 +76,24 @@ class PostResource extends Resource
                 TextColumn::make('category.name'),
                 SpatieMediaLibraryImageColumn::make('Product_Image'),
                 ToggleColumn::make('status')
-
-
             ])
             ->filters([
                 Filter::make('publish')
-                    ->query(fn(Builder $query): Builder => $query->where('status', true)),
+                    ->query(fn (Builder $query): Builder => $query->where('status', true)),
                 Filter::make('draft')
-                    ->query(fn(Builder $query): Builder => $query->where('status', false)),
-                    SelectFilter::make('Category')->relationship('category', 'name')
+                    ->query(fn (Builder $query): Builder => $query->where('status', false)),
+                SelectFilter::make('Category')->relationship('category', 'name'),
+                // Tables\Filters\TrashedFilter::make()
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                // Tables\Actions\ForceDeleteAction::make(),
+                // Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\ForceDeleteBulkAction::make(),
+                // Tables\Actions\RestoreBulkAction::make(),
             ]);
     }
 
@@ -113,8 +115,16 @@ class PostResource extends Resource
 
     public static function getWidgets(): array
     {
-    return [
-        StatsOverview::class
-    ];
+        return [
+            StatsOverview::class
+        ];
     }
+
+    // public static function getEloquentQuery(): Builder
+    // {
+    //     return parent::getEloquentQuery()
+    //         ->withoutGlobalScopes([
+    //             SoftDeletingScope::class,
+    //         ]);
+    // }
 }
