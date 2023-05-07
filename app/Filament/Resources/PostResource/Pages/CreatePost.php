@@ -10,7 +10,7 @@ class CreatePost extends CreateRecord
 {
     protected static string $resource = PostResource::class;
 
-    protected function getRedirectUrl():String{
-        return $this->getResource()::getUrl('index');
-    }
+    // protected function getRedirectUrl():String{
+    //     return $this->getResource()::getUrl('index');
+    // }
 }
