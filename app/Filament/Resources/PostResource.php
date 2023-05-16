@@ -55,6 +55,7 @@ class PostResource extends Resource
                     TextInput::make('slug')->required(),
                     SpatieMediaLibraryFileUpload::make('Product_Image'),
                     RichEditor::make('content'),
+                    TextInput::make('stok'),
                     Toggle::make('status')
                 ])
             ]);
@@ -75,6 +76,7 @@ class PostResource extends Resource
                 TextColumn::make('title')->limit('50')->sortable()->searchable(),
                 TextColumn::make('category.name'),
                 SpatieMediaLibraryImageColumn::make('Product_Image'),
+                TextColumn::make('stok')->limit('50'),
                 ToggleColumn::make('status')
             ])
             ->filters([
