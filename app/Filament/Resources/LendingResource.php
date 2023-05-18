@@ -17,6 +17,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -35,9 +36,9 @@ class LendingResource extends Resource
                 Card::make()->schema([
                     Select::make('user_id')
                         ->relationship('user', 'name'),
-                    DatePicker::make('lendingdate'),
-                    DatePicker::make('returndate'),
-                    TextInput::make('totalitems'),
+                    DatePicker::make('lending_date'),
+                    DatePicker::make('return_date'),
+                    // TextInput::make('totalitems'),
                 ])
             ]);
     }
@@ -46,21 +47,26 @@ class LendingResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('No')->getStateUsing(
-                    static function ($rowLoop, HasTable $livewire): string {
-                        return (string) ($rowLoop->iteration +
-                            ($livewire->tableRecordsPerPage * ($livewire->page - 1
-                            ))
-                        );
-                    }
-                ),
-                TextColumn::make('user.name'),
-                TextColumn::make('lendingdate'),
-                TextColumn::make('returndate'),
-                TextColumn::make('totalitems')
+                // TextColumn::make('No')->getStateUsing(
+                //     static function ($rowLoop, HasTable $livewire): string {
+                //         return (string) ($rowLoop->iteration +
+                //             ($livewire->tableRecordsPerPage * ($livewire->page - 1
+                //             ))
+                //         );
+                //     }
+                // ),
+                TextColumn::make('id')->sortable()->searchable(),
+                TextColumn::make('user.name')->sortable()->searchable(),
+                TextColumn::make('lending_date'),
+                TextColumn::make('return_date')
+                // TextColumn::make('totalitems')
             ])
+            ->defaultsort('id', 'desc')
             ->filters([
-                //
+                // Filter::make('newest')
+                //     ->query(fn (Builder $query): Builder => $query->where('id', )),
+                // Filter::make('oldest')
+                //     ->query(fn (Builder $query): Builder => $query->where('status', false)),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -9,7 +9,7 @@ class Lending extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'lendingdate', 'returndate', 'totalitems'];
+    protected $fillable = ['user_id', 'lending_date', 'return_date'];
 
     public function user()
     {
