@@ -14,13 +14,16 @@ use Illuminate\Support\Facades\Hash;
 
 class ApiController extends Controller
 {
+    // function to show all user data
     public function index()
     {
         return User::all();
     }
 
+    // function to login from mobile
     public function login(Request $request)
     {
+        // validate data from http request
         $credentials = $request->validate([
             'email' => 'required',
             'password' => 'required',
@@ -28,7 +31,7 @@ class ApiController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Authentication successful
-            // Redirect or return a response as needed
+            // Return a response
             return response()->json([
                 'success' => true,
                 'message' => 'Login berhasil',
@@ -36,7 +39,7 @@ class ApiController extends Controller
             ]);
         } else {
             // Authentication failed
-            // Redirect or return a response as needed
+            // Return a response
             return response()->json([
 
                 'success' => false,
@@ -46,46 +49,10 @@ class ApiController extends Controller
             ]);
         }
     }
-
+    // function to register from mobile
     public function register(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'name' => 'required',
-        //     'email' => 'unique|required',
-        //     'phone' => 'required',
-        //     'password' => 'required'
-        // ]);
-        // if ($validator->fails()) {
-        //     return response()->json([
-
-        //         'success' => false,
-        //         'massage' => 'ada kesalahan',
-        //         'data' => $validator->errors()->first()
-
-        //     ], 403);
-        // }
-        // $input = $request->all();
-        // $input['password'] = Hash::make($input['password']);
-        // $user = User::create($input);
-        // $success['token'] = $user->createToken('auth_token')->plainTextToken;
-        // $success['name'] = $user->name;
-        // $success['email'] = $user->email;
-        // $success['phone'] = $user->phone;
-
-        // return response()->json([
-
-        //     'success' => true,
-        //     'massage' => 'sukses register',
-        //     'data' => $success
-        // ]);
-
-        // $rules = [
-        //     'name' => 'required',
-        //     'email'    => 'unique:users|required',
-        //     'phone'    => 'number|required',
-        //     'password' => 'required',
-        // ];
-
+        // validate data from http request
         $data = $request->validate([
             'name' => 'required',
             'email' => 'required',
@@ -93,14 +60,7 @@ class ApiController extends Controller
             'password' => 'required',
         ]);
 
-
-        // $input     = $request->only('name', 'email', 'phone', 'password');
-        // $validator = Validator::make($input, $credentials);
-        // var_dump($credentials);
-        // die();
-        // if ($validator->fails()) {
-        //     return response()->json(['success' => false, 'error' => $validator->messages()]);
-        // }
+        // process insert data to database
         $name = $data['name'];
         $email = $data['email'];
         $phone = $data['phone'];
@@ -115,7 +75,7 @@ class ApiController extends Controller
         ]);
     }
 
-
+    // function to show all available post
     public function post()
     {
         $post = Post::all();

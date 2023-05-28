@@ -29,4 +29,6 @@ Route::post('/signin', [ApiController::class, 'login']);
 
 Route::post('/signup', [ApiController::class, 'register']);
 
+Route::post('/edit/user/{id}', [ApiController::class, 'edit_user']);
+
 Route::get('/post', [ApiController::class, 'post']);
