@@ -37,30 +37,35 @@ class UserResource extends Resource
             ->schema([
                 Card::make()->schema([
                     TextInput::make('name')
-                    ->required()
-                    ->maxLength(100),
+                        ->required()
+                        ->maxLength(100),
 
                     TextInput::make('email')
-                    ->email()
-                    ->label('Email Address')
-                    ->required()
-                    ->maxLength(100),
+                        ->email()
+                        ->label('Email Address')
+                        ->required()
+                        ->maxLength(100),
+
+                    TextInput::make('phone')
+                        ->required()
+                        ->minLength(11)
+                        ->maxLength(13),
 
                     TextInput::make('password')
-                    ->password()
-                        ->required(fn (Page $livewire):bool => $livewire instanceof CreateRecord)
+                        ->password()
+                        ->required(fn (Page $livewire): bool => $livewire instanceof CreateRecord)
                         ->minLength(8)
                         // ->same('passwordConfirmation')
-                        ->dehydrated(fn ($state) =>filled($state))
+                        ->dehydrated(fn ($state) => filled($state))
                         ->dehydrateStateUsing(fn ($state) => Hash::make($state)),
 
                     TextInput::make('passwordConfirmation')
                         ->password()
                         ->same('password')
                         ->label('Password Confirmation')
-                            ->required(fn (Page $livewire):bool => $livewire instanceof CreateRecord)
-                            ->minLength(8)
-                            ->dehydrated(false),
+                        ->required(fn (Page $livewire): bool => $livewire instanceof CreateRecord)
+                        ->minLength(8)
+                        ->dehydrated(false),
                     Select::make('roles')
                         ->multiple()
                         ->relationship('roles', 'name')->preload()
@@ -75,18 +80,17 @@ class UserResource extends Resource
             ->columns([
                 TextColumn::make('No')->getStateUsing(
                     static function ($rowLoop, HasTable $livewire): string {
-                        return (string) (
-                            $rowLoop->iteration +
-                            ($livewire->tableRecordsPerPage * (
-                                $livewire->page - 1
+                        return (string) ($rowLoop->iteration +
+                            ($livewire->tableRecordsPerPage * ($livewire->page - 1
                             ))
                         );
                     }
                 ),
                 TextColumn::make('name')->limit('50')->sortable()->searchable(),
                 TextColumn::make('email')->limit('50')->searchable(),
+                TextColumn::make('phone')->limit('50')->searchable(),
                 TextColumn::make('roles.name')
-            
+
             ])
             ->filters([
                 //
@@ -98,14 +102,14 @@ class UserResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -113,5 +117,5 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
-    }    
+    }
 }
