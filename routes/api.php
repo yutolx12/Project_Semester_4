@@ -27,4 +27,6 @@ Route::get('/user', [ApiController::class, 'index']);
 
 Route::post('/signin', [ApiController::class, 'login']);
 
+Route::post('/signup', [ApiController::class, 'register']);
+
 Route::get('/post', [ApiController::class, 'post']);
