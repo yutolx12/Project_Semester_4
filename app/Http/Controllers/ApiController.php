@@ -55,7 +55,7 @@ class ApiController extends Controller
         // validate data from http request
         $data = $request->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:users',
             'phone' => 'required',
             'password' => 'required',
         ]);
