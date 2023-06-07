@@ -36,11 +36,12 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        if($user->hasRole(['adminsuper']) && $user->id == $model->id){
-            return true;
-        }else{
-            return false;
-        }
+        return $user->hasRole(['adminsuper', 'admin', 'user']);
+        // if($user->hasRole(['adminsuper']) && $user->id == $model->id){
+        //     return true;
+        // }else{
+        //     return false;
+        // }
     }
 
     /**

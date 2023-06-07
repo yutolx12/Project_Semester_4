@@ -23,12 +23,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return User::all();
 // });
 // Route::get('user', [AuthController::class, 'user']);
+
+// url api untuk akses seluruh data user
 Route::get('/user', [ApiController::class, 'index']);
 
+// url api untuk login
 Route::post('/signin', [ApiController::class, 'login']);
 
+// url api untuk register user baru
 Route::post('/signup', [ApiController::class, 'register']);
 
-Route::post('/edit/user/{id}', [ApiController::class, 'edit_user']);
+// url api untuk menambahkan peminjaman
+// tetapi belum bisa menambahkan barang dalam peminjaman (hanya membuat peminjaman saja)
+Route::post('/lending', [ApiController::class, 'peminjaman']);
 
+// url api untuk edit data user
+Route::post('/edit/user', [ApiController::class, 'updateProfile']);
+
+// url api untuk akses seluruh data barang
 Route::get('/post', [ApiController::class, 'post']);

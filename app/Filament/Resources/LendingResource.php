@@ -6,6 +6,7 @@ use App\Filament\Resources\LendingResource\RelationManagers\PostsRelationManager
 use App\Filament\Resources\LendingResource\Pages;
 use App\Filament\Resources\LendingResource\RelationManagers;
 use App\Models\Lending;
+use App\Models\Post;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\DatePicker;
@@ -36,8 +37,12 @@ class LendingResource extends Resource
                 Card::make()->schema([
                     Select::make('user_id')
                         ->relationship('user', 'name'),
+                    // Select::make('post_id')
+                    //     ->relationship('post', 'title'),
                     DatePicker::make('lending_date'),
-                    DatePicker::make('return_date'),
+                    DatePicker::make('return_date')
+                    // Select::make('post_id')
+                    //     ->relationship('post', 'title'),
                     // TextInput::make('totalitems'),
                 ])
             ]);
@@ -58,7 +63,8 @@ class LendingResource extends Resource
                 TextColumn::make('id')->sortable()->searchable(),
                 TextColumn::make('user.name')->sortable()->searchable(),
                 TextColumn::make('lending_date'),
-                TextColumn::make('return_date')
+                TextColumn::make('return_date'),
+                // TextColumn::make('post_id')
                 // TextColumn::make('totalitems')
             ])
             ->defaultsort('id', 'desc')

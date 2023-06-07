@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Lending;
 use Illuminate\Http\Request;
 use DateTime;
 use Carbon\Carbon;
@@ -80,5 +81,60 @@ class ApiController extends Controller
     {
         $post = Post::all();
         return response()->json($post);
+    }
+
+    public function peminjaman(Request $request)
+    {
+        // validate data from http request
+        $data = $request->validate([
+            'user_id' => 'required',
+            'lending_date' => 'required',
+            'return_date' => 'required'
+        ]);
+
+        // $data2 = $request->validate([
+        //     'post_id' => 'required',
+        //     'lending_date' => 'required',
+        //     'return_date' => 'required'
+        // ]);
+
+        // process insert data to database
+        $user_id = $data['user_id'];
+        $lending_date = $data['lending_date'];
+        $return_date = $data['return_date'];
+        $peminjaman     = Lending::create(['user_id' => $user_id, 'lending_date' => $lending_date, 'return_date' => $return_date]);
+        return response()->json([
+
+            'success' => true,
+            'message' => 'Peminjaman berhasil',
+            'data' => $peminjaman
+
+        ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $data = $request->validate([
+            'id' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'password' => 'required',
+        ]);
+
+        // $id = $data['id'];
+        $name = $data['name'];
+        $email = $data['email'];
+        $phone = $data['phone'];
+        $password = $data['password'];
+
+        // $input = $request->all();
+        $update = User::where('id', $data['id'])->update(['name' => $name, 'email' => $email, 'phone' => $phone, 'password' => Hash::make($password)]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Sukses update pengguna',
+            'data' => $update,
+        ]);
     }
 }

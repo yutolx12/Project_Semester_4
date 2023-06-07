@@ -45,13 +45,14 @@ class EnergyResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id'),
+                TextColumn::make('id')->sortable()->searchable(),
                 TextColumn::make('ampere'),
                 TextColumn::make('voltage'),
                 TextColumn::make('watt'),
                 TextColumn::make('ruangan'),
                 TextColumn::make('update_time'),
             ])
+            ->defaultsort('id', 'desc')
             ->filters([
                 //
             ])
