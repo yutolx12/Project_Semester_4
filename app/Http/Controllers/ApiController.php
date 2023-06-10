@@ -30,13 +30,18 @@ class ApiController extends Controller
             'password' => 'required',
         ]);
 
+
         if (Auth::attempt($credentials)) {
             // Authentication successful
             // Return a response
+            $id = $request->only(['email']);
+            $userprofile = User::where('email', $id)->first();
+            // print($userprofile);
+            // $name = $userprofile->name;
             return response()->json([
                 'success' => true,
                 'message' => 'Login berhasil',
-                'data' => $credentials
+                'data' => $userprofile
             ]);
         } else {
             // Authentication failed
