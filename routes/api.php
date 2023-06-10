@@ -38,7 +38,7 @@ Route::post('/signup', [ApiController::class, 'register']);
 Route::post('/lending', [ApiController::class, 'peminjaman']);
 
 // url api untuk edit data user
-Route::post('/edit/user', [ApiController::class, 'updateProfile']);
+Route::post('/edit/user/', [ApiController::class, 'updateProfile']);
 
 // url api untuk akses seluruh data barang
 Route::get('/post', [ApiController::class, 'post']);

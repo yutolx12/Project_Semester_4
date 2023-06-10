@@ -114,27 +114,59 @@ class ApiController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $data = $request->validate([
-            'id' => 'required',
+        // $id = $_GET['id'];
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
             'name' => 'required',
-            'email' => 'required',
             'phone' => 'required',
-            'password' => 'required',
+            // 'password' => 'required',
+
         ]);
 
-        // $id = $data['id'];
-        $name = $data['name'];
-        $email = $data['email'];
-        $phone = $data['phone'];
-        $password = $data['password'];
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first(),
+                'data' => $validator->errors()->first(),
+            ], 404);
+        }
 
-        // $input = $request->all();
-        $update = User::where('id', $data['id'])->update(['name' => $name, 'email' => $email, 'phone' => $phone, 'password' => Hash::make($password)]);
+        $id = $request->only(['email']);
+        $input = $request->only(['name', 'phone']);
+        // if ($request->has('password')) {
+        //     bcrypt($request->input('password'));
+        // }
+        User::where('email', $id['email'])->update($input);
 
         return response()->json([
             'success' => true,
             'message' => 'Sukses update pengguna',
-            'data' => $update,
+            'data' => $input,
         ]);
     }
+
+    // $data = $request->validate([
+    //     'id' => 'required',
+    //     'name' => 'required',
+    //     'email' => 'required',
+    //     'phone' => 'required',
+    //     'password' => 'required',
+    // ]);
+
+    // // $id = $data['id'];
+    // $name = $data['name'];
+    // $email = $data['email'];
+    // $phone = $data['phone'];
+    // $password = $data['password'];
+
+    // // $input = $request->all();
+    // $update = User::where('id', $data['id'])->update(['name' => $name, 'email' => $email, 'phone' => $phone, 'password' => Hash::make($password)]);
+
+    // return response()->json([
+    //     'success' => true,
+    //     'message' => 'Sukses update pengguna',
+    //     'data' => $update,
+    // ]);
+    // }
+    // }
 }
