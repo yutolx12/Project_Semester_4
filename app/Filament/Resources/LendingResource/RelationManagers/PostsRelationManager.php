@@ -9,6 +9,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\AttachAction;
 
 class PostsRelationManager extends RelationManager
 {
@@ -16,15 +17,15 @@ class PostsRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-            ]);
-    }
+    // public static function form(Form $form): Form
+    // {
+    //     return $form
+    //         ->schema([
+    //             // Forms\Components\TextInput::make('title')
+    //             //     ->required()
+    //             //     ->maxLength(255),
+    //         ]);
+    // }
 
     public static function table(Table $table): Table
     {
@@ -36,8 +37,9 @@ class PostsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
-                Tables\Actions\AttachAction::make(),
+                // Tables\Actions\CreateAction::make(),
+                // Tables\Actions\AttachAction::make(),
+                AttachAction::make()->preloadRecordSelect()
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -48,5 +50,5 @@ class PostsRelationManager extends RelationManager
                 Tables\Actions\DetachBulkAction::make(),
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }    
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\EnergyResource\Pages;
 
 use App\Filament\Resources\EnergyResource;
+use App\Filament\Resources\EnergyResource\Widgets\StatsOverview;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
 
@@ -14,6 +15,13 @@ class ListEnergies extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            StatsOverview::class
         ];
     }
 }

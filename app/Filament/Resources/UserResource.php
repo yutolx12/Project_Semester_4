@@ -78,14 +78,15 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('No')->getStateUsing(
-                    static function ($rowLoop, HasTable $livewire): string {
-                        return (string) ($rowLoop->iteration +
-                            ($livewire->tableRecordsPerPage * ($livewire->page - 1
-                            ))
-                        );
-                    }
-                ),
+                TextColumn::make('id'),
+                // ->getStateUsing(
+                //     static function ($rowLoop, HasTable $livewire): string {
+                //         return (string) ($rowLoop->iteration +
+                //             ($livewire->tableRecordsPerPage * ($livewire->page - 1
+                //             ))
+                //         );
+                //     }
+                // ),
                 TextColumn::make('name')->limit('50')->sortable()->searchable(),
                 TextColumn::make('email')->limit('50')->searchable(),
                 TextColumn::make('phone')->limit('50')->searchable(),

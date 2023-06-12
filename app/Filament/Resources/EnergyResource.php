@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\EnergyResource\Pages;
 use App\Filament\Resources\EnergyResource\RelationManagers;
+use App\Filament\Resources\EnergyResource\Widgets\StatsOverview;
 use App\Models\Energy;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
@@ -44,6 +45,7 @@ class EnergyResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->poll('10s')
             ->columns([
                 TextColumn::make('id')->sortable()->searchable(),
                 TextColumn::make('ampere'),
@@ -77,6 +79,13 @@ class EnergyResource extends Resource
             'index' => Pages\ListEnergies::route('/'),
             'create' => Pages\CreateEnergy::route('/create'),
             'edit' => Pages\EditEnergy::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            StatsOverview::class
         ];
     }
 }
